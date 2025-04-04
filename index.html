@@ -57,6 +57,8 @@
     </div>
     
     <script>
+        let registros = [];
+
         function registrar() {
             let cedula = document.getElementById("cedula").value;
             let lateral = document.getElementById("lateral").value;
@@ -67,13 +69,18 @@
                 return;
             }
             
-            let data = [["Cédula", "Lateral", "Motivo"], [cedula, lateral, motivo]];
+            registros.push([cedula, lateral, motivo]);
+            let data = [["Cédula", "Lateral", "Motivo"], ...registros];
             let ws = XLSX.utils.aoa_to_sheet(data);
             let wb = XLSX.utils.book_new();
             XLSX.utils.book_append_sheet(wb, ws, "Registro");
             XLSX.writeFile(wb, "registro_vehiculos.xlsx");
+            
+            // Limpiar los campos después de registrar
+            document.getElementById("cedula").value = "";
+            document.getElementById("lateral").value = "";
+            document.getElementById("motivo").value = "";
         }
     </script>
 </body>
 </html>
-
