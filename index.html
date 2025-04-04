@@ -1,1 +1,79 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro de Vehículos</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.2/xlsx.full.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px gray;
+            display: inline-block;
+        }
+        input, select {
+            display: block;
+            margin: 10px auto;
+            padding: 10px;
+            width: 80%;
+            font-size: 16px;
+        }
+        .button {
+            background: #76c442;
+            color: black;
+            font-size: 20px;
+            font-weight: bold;
+            padding: 15px;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+        }
+        .button:hover {
+            background: #5a9e34;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>REGISTRO INGRESO VEHÍCULOS MANTENIMIENTO</h2>
+        <input type="text" id="cedula" placeholder="Cédula Conductor" onkeypress="return event.charCode >= 48 && event.charCode <= 57">
+        <input type="text" id="lateral" placeholder="Lateral" onkeypress="return event.charCode >= 48 && event.charCode <= 57">
+        <select id="motivo">
+            <option value="">Seleccione un motivo</option>
+            <option value="Llantas">Llantas</option>
+            <option value="Caja">Caja</option>
+            <option value="Motor">Motor</option>
+        </select>
+        <button class="button" onclick="registrar()">REGISTRAR</button>
+    </div>
+    
+    <script>
+        function registrar() {
+            let cedula = document.getElementById("cedula").value;
+            let lateral = document.getElementById("lateral").value;
+            let motivo = document.getElementById("motivo").value;
+            
+            if (!cedula || !lateral || !motivo) {
+                alert("Todos los campos son obligatorios");
+                return;
+            }
+            
+            let data = [["Cédula", "Lateral", "Motivo"], [cedula, lateral, motivo]];
+            let ws = XLSX.utils.aoa_to_sheet(data);
+            let wb = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb, ws, "Registro");
+            XLSX.writeFile(wb, "registro_vehiculos.xlsx");
+        }
+    </script>
+</body>
+</html>
 
